@@ -1,14 +1,18 @@
 import fs from "fs";
 import path from "path";
+import { ModuleAliasesToModuleNameMapperOptions, ModulePaths } from "./types";
 
-export const pathsToModuleAliases = (paths, options) => {
+export const pathsToModuleAliases = (
+  paths: ModulePaths,
+  options: ModuleAliasesToModuleNameMapperOptions
+) => {
   const moduleAliases = {};
   const pathPrefix =
-    typeof options.prefix === typeof "str"
+    typeof options.prefix === "string"
       ? options.prefix.replace(/(\/)+$/, "")
       : "";
   const acceptMultiple =
-    typeof options.multiple !== typeof true ? true : options.multiple;
+    typeof options.multiple !== "boolean" ? true : options.multiple;
 
   Object.keys(paths).forEach((aliasPath) => {
     const aliasPathKey = aliasPath.replace(/(\/)?\*$/, "");

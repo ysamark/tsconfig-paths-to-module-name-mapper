@@ -2,7 +2,7 @@ import { ModuleAliases, ModuleAliasesToModuleNameMapperOptions } from "./types";
 
 export const moduleAliasesToModuleNameMapper = (
   moduleAliases: ModuleAliases,
-  options: ModuleAliasesToModuleNameMapperOptions
+  options: ModuleAliasesToModuleNameMapperOptions = {}
 ) => {
   const moduleNameMap = {};
 
