@@ -49,7 +49,6 @@ jobs:
       #   run: cd packages/development/dist
       - name: update the module version
         run: |
-          cd packages/development
           npm version minor
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
