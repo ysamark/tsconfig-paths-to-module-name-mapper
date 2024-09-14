@@ -16,5 +16,5 @@ module.exports = {
     "@babel/plugin-proposal-object-rest-spread",
   ],
 
-  ignore: ["./node_modules", "./tests", "**/*.spec.js"],
+  ignore: ["./node_modules", "./tests", "**/*.spec.ts", "**/*.d.ts"],
 };

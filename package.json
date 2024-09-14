@@ -8,6 +8,7 @@
   "displayName": "Verdant kit utils",
   "homepage": "https://github.com/ysamark/tsconfig-paths-to-module-name-mapper#readme",
   "scripts": {
+    "prebuild": "tsc src/index.ts --outDir dist --esModuleInterop --declaration --emitDeclarationOnly",
     "build": "babel src --config-file \"./babel.config.js\" --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
     "test": "cross-env NODE_ENV=test vitest",
     "lint": "eslint --ext .js src/",
