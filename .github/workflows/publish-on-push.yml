@@ -58,13 +58,13 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
 
-      - name: pull possible changes from remote before push
-        run: git pull origin main
+      # - name: pull possible changes from remote before push
+      #   run: git pull origin main
 
-      - name: push development package version update to the repository
-        run: |
-          git add .
-          git commit -m "feat: update package version"
-          git push origin main
+      # - name: push development package version update to the repository
+      #   run: |
+      #     git add .
+      #     git commit -m "feat: update package version"
+      #     git push origin main
 
       # End Publish package
