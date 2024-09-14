@@ -1,13 +1,22 @@
-export const pathsToModuleNameMapper = (paths, options) => {
-  const moduleAliases = {};
+import {
+  ModuleAliases,
+  ModuleAliasesToModuleNameMapperOptions,
+  ModulePaths,
+} from "./types";
+
+export const pathsToModuleNameMapper = (
+  paths: ModulePaths,
+  options: ModuleAliasesToModuleNameMapperOptions = {}
+) => {
+  const moduleAliases = {} as ModuleAliases;
   const pathPrefix =
-    typeof options.prefix === typeof "str"
+    typeof options.prefix === "string"
       ? options.prefix.replace(/(\/)+$/, "")
       : "";
   const acceptMultiple =
     typeof options.multiple !== typeof true ? true : options.multiple;
 
-  const parsePath = (pathPrefix, path) => {
+  const parsePath = (pathPrefix: string, path?: string) => {
     const pathValue = path?.replace(/\/\*$/, "");
 
     const absolutePathValue = [pathPrefix, pathValue || ""].join("/");
@@ -16,7 +25,10 @@ export const pathsToModuleNameMapper = (paths, options) => {
   };
 
   Object.keys(paths).forEach((aliasPath) => {
-    const aliasPathKey = `^${aliasPath.replace(/\/\*$/, "")}/(.*)$`;
+    const aliasPathKey = `^${aliasPath.replace(
+      /\/\*$/,
+      ""
+    )}/(.*)$` as keyof ModuleAliases;
 
     if (
       paths[aliasPath] instanceof Array &&

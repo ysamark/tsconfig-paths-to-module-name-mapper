@@ -4,7 +4,7 @@ export const moduleAliasesToModuleNameMapper = (
   moduleAliases: ModuleAliases,
   options: ModuleAliasesToModuleNameMapperOptions = {}
 ) => {
-  const moduleNameMap = {};
+  const moduleNameMap = {} as ModuleAliases;
 
   const pathPrefix =
     typeof options.prefix === "string"
@@ -14,11 +14,16 @@ export const moduleAliasesToModuleNameMapper = (
   if (typeof moduleAliases === "object") {
     Object.keys(moduleAliases).forEach((moduleAlias) => {
       const moduleAliasKeyRe = `^${moduleAlias}/(.*)$`;
-      const moduleAliasValue = `${pathPrefix}/${moduleAliases[
-        moduleAlias
-      ].replace(/^(\.\/)+/, "")}/$1`;
+      const moduleAliasKey = moduleAliases[moduleAlias];
 
-      moduleNameMap[moduleAliasKeyRe] = moduleAliasValue;
+      if (typeof moduleAliasKey === "string") {
+        const moduleAliasValue = `${pathPrefix}/${moduleAliasKey.replace(
+          /^(\.\/)+/,
+          ""
+        )}/$1`;
+
+        moduleNameMap[moduleAliasKeyRe] = moduleAliasValue;
+      }
     });
   }
 

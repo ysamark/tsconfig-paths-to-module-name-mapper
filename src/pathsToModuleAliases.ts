@@ -1,12 +1,18 @@
 import fs from "fs";
 import path from "path";
-import { ModuleAliasesToModuleNameMapperOptions, ModulePaths } from "./types";
+import {
+  AliasPathSourceHandler,
+  AliasPathSourceHandlerContext,
+  ModuleAliases,
+  ModuleAliasesToModuleNameMapperOptions,
+  ModulePaths,
+} from "./types";
 
 export const pathsToModuleAliases = (
   paths: ModulePaths,
   options: ModuleAliasesToModuleNameMapperOptions
 ) => {
-  const moduleAliases = {};
+  const moduleAliases: ModuleAliases = {};
   const pathPrefix =
     typeof options.prefix === "string"
       ? options.prefix.replace(/(\/)+$/, "")
@@ -15,7 +21,10 @@ export const pathsToModuleAliases = (
     typeof options.multiple !== "boolean" ? true : options.multiple;
 
   Object.keys(paths).forEach((aliasPath) => {
-    const aliasPathKey = aliasPath.replace(/(\/)?\*$/, "");
+    const aliasPathKey = aliasPath.replace(
+      /(\/)?\*$/,
+      ""
+    ) as keyof ModuleAliases;
 
     if (
       paths[aliasPath] instanceof Array &&
@@ -35,10 +44,16 @@ export const pathsToModuleAliases = (
         ? [paths[aliasPath]]
         : paths[aliasPath];
 
-    const aliasPathSourceHandler = function ({ rootDir }) {
+    const aliasPathSourceHandler: AliasPathSourceHandler = function ({
+      rootDir,
+    }) {
       this.rootDir = rootDir;
 
-      function aliasPathSourceHandler(_fromPath, request) {
+      function aliasPathSourceHandler(
+        this: AliasPathSourceHandlerContext,
+        _fromPath: string,
+        request: string
+      ) {
         const { prefix, source } = this.path;
 
         const slashRe = /[/\\\\]+/;
@@ -85,15 +100,22 @@ export const pathsToModuleAliases = (
     };
 
     if (aliasPathValues instanceof Array) {
-      aliasPathSourceHandler.path = {
-        prefix: pathPrefix,
-        source: aliasPathValues,
-        key: aliasPathKey,
-      };
+      // Object.assign(aliasPathSourceHandler, {
+      //   path: {
+      //     prefix: pathPrefix,
+      //     source: aliasPathValues,
+      //     key: aliasPathKey,
+      //   },
+      // });
 
-      moduleAliases[aliasPathKey] = aliasPathSourceHandler.bind(
-        aliasPathSourceHandler
-      );
+      moduleAliases[aliasPathKey] = aliasPathSourceHandler.bind({
+        rootDir: "",
+        path: {
+          prefix: pathPrefix,
+          source: aliasPathValues,
+          key: String(aliasPathKey),
+        },
+      });
     }
   });
 

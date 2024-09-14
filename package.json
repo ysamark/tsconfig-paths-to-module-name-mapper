@@ -8,7 +8,7 @@
   "displayName": "Verdant kit utils",
   "homepage": "https://github.com/ysamark/tsconfig-paths-to-module-name-mapper#readme",
   "scripts": {
-    "prebuild": "tsc src/index.ts --outDir dist --esModuleInterop --declaration --emitDeclarationOnly",
+    "prebuild": "tsc --rootDir src --outDir dist --esModuleInterop --declaration --emitDeclarationOnly",
     "build": "babel src --config-file \"./babel.config.js\" --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
     "test": "cross-env NODE_ENV=test vitest",
     "lint": "eslint --ext .js src/",
@@ -40,6 +40,11 @@
     "bcryptjs": "^2.4.3",
     "deepmerge": "^4.3.1"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
   "devDependencies": {
     "@babel/cli": "^7.25.6",
     "@babel/core": "^7.25.2",
@@ -58,7 +63,7 @@
     "globals": "^15.9.0",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.6.2",
+    "typescript": "latest",
     "typescript-eslint": "^8.5.0",
     "vitest": "^2.1.0"
   }
