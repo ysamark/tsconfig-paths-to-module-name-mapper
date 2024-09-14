@@ -44,9 +44,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Publish development package
-      # - name: open development package directory
-      #   run: cd packages/development/dist
       - name: update the module version
         run: |
           npm version minor
